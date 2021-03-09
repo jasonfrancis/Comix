@@ -169,7 +169,7 @@ def get_most_common_edge_colour(pixbuf):
 
 def pil_to_pixbuf(image):
     """Return a pixbuf created from the PIL <image>."""
-    imagestr = image.tostring()
+    imagestr = image.tobytes()
     IS_RGBA = image.mode == 'RGBA'
     return gtk.gdk.pixbuf_new_from_data(imagestr, gtk.gdk.COLORSPACE_RGB,
         IS_RGBA, 8, image.size[0], image.size[1],
