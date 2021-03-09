@@ -1,10 +1,10 @@
 """image.py - Various image manipulations."""
 
 import gtk
-import Image
-import ImageEnhance
-import ImageOps
-import ImageStat
+from PIL import Image
+from PIL import ImageEnhance
+from PIL import ImageOps
+from PIL import ImageStat
 
 from preferences import prefs
 

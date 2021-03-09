@@ -7,7 +7,7 @@ import urllib
 
 import gtk
 import pango
-import Image
+from PIL import Image
 
 import encoding
 import labels

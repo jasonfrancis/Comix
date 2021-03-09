@@ -4,8 +4,8 @@ import urllib
 
 import gtk
 import gobject
-import Image
-import ImageDraw
+from PIL import Image
+from PIL import ImageDraw
 
 import image
 from preferences import prefs

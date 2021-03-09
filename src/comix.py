@@ -49,12 +49,12 @@ except ImportError:
     sys.exit(1)
 
 try:
-    import Image
-    assert Image.VERSION >= '1.1.5'
+    from PIL import Image
+    assert Image.PILLOW_VERSION >= '1.1.5'
 except AssertionError:
     print "You don't have the required version of the Python Imaging",
     print 'Library (PIL) installed.'
-    print 'Installed PIL version is: %s' % Image.VERSION
+    print 'Installed PIL version is: %s' % Image.PILLOW_VERSION
     print 'Required PIL version is: 1.1.5 or higher'
     sys.exit(1)
 except ImportError:

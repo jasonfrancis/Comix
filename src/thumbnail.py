@@ -15,7 +15,7 @@ import shutil
 import tempfile
 
 import gtk
-import Image
+from PIL import Image
 
 import archive
 import constants
