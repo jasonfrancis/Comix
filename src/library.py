@@ -49,13 +49,13 @@ class _LibraryDialog(gtk.Window):
         self.collection_area = _CollectionArea(self)
         
         table = gtk.Table(2, 2, False)
-        table.attach(self.collection_area, 0, 1, 0, 1, gtk.FILL,
-            gtk.EXPAND|gtk.FILL)
-        table.attach(self.book_area, 1, 2, 0, 1, gtk.EXPAND|gtk.FILL,
-            gtk.EXPAND|gtk.FILL)
-        table.attach(self.control_area, 0, 2, 1, 2, gtk.EXPAND|gtk.FILL,
-            gtk.FILL)
-        table.attach(self._statusbar, 0, 2, 2, 3, gtk.FILL, gtk.FILL)
+        table.attach(self.collection_area, 0, 1, 0, 1, gtk.AttachOptions.FILL,
+            gtk.AttachOptions.EXPAND|gtk.AttachOptions.FILL)
+        table.attach(self.book_area, 1, 2, 0, 1, gtk.AttachOptions.EXPAND|gtk.AttachOptions.FILL,
+            gtk.AttachOptions.EXPAND|gtk.AttachOptions.FILL)
+        table.attach(self.control_area, 0, 2, 1, 2, gtk.AttachOptions.EXPAND|gtk.AttachOptions.FILL,
+            gtk.AttachOptions.FILL)
+        table.attach(self._statusbar, 0, 2, 2, 3, gtk.AttachOptions.FILL, gtk.AttachOptions.FILL)
         self.add(table)
         self.show_all()
 

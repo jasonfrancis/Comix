@@ -35,7 +35,7 @@ class ThumbnailSidebar(gtk.HBox):
         cellrenderer = gtk.CellRendererPixbuf()
         self._layout = gtk.Layout()
         self._layout.put(self._treeview, 0, 0)
-        self._column.set_sizing(gtk.TREE_VIEW_COLUMN_FIXED)
+        self._column.set_sizing(gtk.TreeViewColumnSizing.FIXED)
         self._treeview.append_column(self._column)
         self._column.pack_start(cellrenderer, True)
         self._column.set_attributes(cellrenderer, pixbuf=0)
@@ -49,8 +49,9 @@ class ThumbnailSidebar(gtk.HBox):
         self._scroll.set_adjustment(self._vadjust)
         self._selection = self._treeview.get_selection()
 
-        self.pack_start(self._layout)
-        self.pack_start(self._scroll)
+        # self, child, expand=True, fill=True, padding=0
+        self.pack_start(self._layout, True, True, 0)
+        self.pack_start(self._scroll, True, True, 0)
         
         self._treeview.connect_after('drag_begin', self._drag_begin)
         self._treeview.connect('drag_data_get', self._drag_data_get)

@@ -6,6 +6,7 @@ import shutil
 import threading
 
 from gi.repository import Gtk as gtk
+from gi.repository import Gdk as gdk
 from gi.repository import GObject as gobject
 
 import constants
@@ -76,13 +77,14 @@ class MainWindow(gtk.Window):
         # ----------------------------------------------------------------
         self.set_title('Comix')
         self.set_size_request(300, 300)  # Avoid making the window *too* small
+        self.set_has_resize_grip(True)
         self.resize(prefs['window width'], prefs['window height'])
 
         # This is a hack to get the focus away from the toolbar so that
         # we don't activate it with space or some other key (alternative?)
         self.toolbar.set_focus_child(
             self.ui_manager.get_widget('/Tool/expander'))
-        self.toolbar.set_style(gtk.TOOLBAR_ICONS)
+        self.toolbar.set_style(gtk.ToolbarStyle.ICONS)
 
         self._image_box.add(self.left_image)
         self._image_box.add(self.right_image)
@@ -97,20 +99,20 @@ class MainWindow(gtk.Window):
         self._hadjust.page_increment = 1
 
         table = gtk.Table(2, 2, False)
-        table.attach(self.thumbnailsidebar, 0, 1, 2, 5, gtk.FILL,
-            gtk.FILL|gtk.EXPAND, 0, 0)
-        table.attach(self._main_layout, 1, 2, 2, 3, gtk.FILL|gtk.EXPAND,
-            gtk.FILL|gtk.EXPAND, 0, 0)
-        table.attach(self._vscroll, 2, 3, 2, 3, gtk.FILL|gtk.SHRINK,
-            gtk.FILL|gtk.SHRINK, 0, 0)
-        table.attach(self._hscroll, 1, 2, 4, 5, gtk.FILL|gtk.SHRINK,
-            gtk.FILL, 0, 0)
-        table.attach(self.menubar, 0, 3, 0, 1, gtk.FILL|gtk.SHRINK,
-            gtk.FILL, 0, 0)
-        table.attach(self.toolbar, 0, 3, 1, 2, gtk.FILL|gtk.SHRINK,
-            gtk.FILL, 0, 0)
-        table.attach(self.statusbar, 0, 3, 5, 6, gtk.FILL|gtk.SHRINK,
-            gtk.FILL, 0, 0)
+        table.attach(self.thumbnailsidebar, 0, 1, 2, 5, gtk.AttachOptions.FILL,
+            gtk.AttachOptions.FILL|gtk.AttachOptions.EXPAND, 0, 0)
+        table.attach(self._main_layout, 1, 2, 2, 3, gtk.AttachOptions.FILL|gtk.AttachOptions.EXPAND,
+            gtk.AttachOptions.FILL|gtk.AttachOptions.EXPAND, 0, 0)
+        table.attach(self._vscroll, 2, 3, 2, 3, gtk.AttachOptions.FILL|gtk.AttachOptions.SHRINK,
+            gtk.AttachOptions.FILL|gtk.AttachOptions.SHRINK, 0, 0)
+        table.attach(self._hscroll, 1, 2, 4, 5, gtk.AttachOptions.FILL|gtk.AttachOptions.SHRINK,
+            gtk.AttachOptions.FILL, 0, 0)
+        table.attach(self.menubar, 0, 3, 0, 1, gtk.AttachOptions.FILL|gtk.AttachOptions.SHRINK,
+            gtk.AttachOptions.FILL, 0, 0)
+        table.attach(self.toolbar, 0, 3, 1, 2, gtk.AttachOptions.FILL|gtk.AttachOptions.SHRINK,
+            gtk.AttachOptions.FILL, 0, 0)
+        table.attach(self.statusbar, 0, 3, 5, 6, gtk.AttachOptions.FILL|gtk.AttachOptions.SHRINK,
+            gtk.AttachOptions.FILL, 0, 0)
 
         if prefs['default double page']:
             self.actiongroup.get_action('double_page').activate()
@@ -163,15 +165,15 @@ class MainWindow(gtk.Window):
         self._main_layout.show()
         self._display_active_widgets()
 
-        self._main_layout.set_events(gtk.gdk.BUTTON1_MOTION_MASK |
-                                     gtk.gdk.BUTTON2_MOTION_MASK |
-                                     gtk.gdk.BUTTON_PRESS_MASK |
-                                     gtk.gdk.BUTTON_RELEASE_MASK |
-                                     gtk.gdk.POINTER_MOTION_MASK)
-        self._main_layout.drag_dest_set(gtk.DEST_DEFAULT_ALL,
-                                        [('text/uri-list', 0, 0)],
+        self._main_layout.set_events(gdk.EventMask.BUTTON1_MOTION_MASK |
+                                     gdk.EventMask.BUTTON2_MOTION_MASK |
+                                     gdk.EventMask.BUTTON_PRESS_MASK |
+                                     gdk.EventMask.BUTTON_RELEASE_MASK |
+                                     gdk.EventMask.POINTER_MOTION_MASK)
+        self._main_layout.drag_dest_set(gtk.DestDefaults.ALL,
+                                        [gtk.TargetEntry('text/uri-list', 0, 0)],
                                         gdk.DragAction.COPY |
-                                        gtk.gdk.ACTION_MOVE)
+                                        gdk.DragAction.MOVE)
 
         self.connect('delete_event', self.terminate_program)
         self.connect('key_press_event', self._event_handler.key_press_event)
@@ -708,9 +710,7 @@ class MainWindow(gtk.Window):
         """Set the background colour to <colour>. Colour is a sequence in the
         format (r, g, b). Values are 16-bit.
         """
-        self._main_layout.modify_bg(gtk.STATE_NORMAL,
-            gtk.gdk.colormap_get_system().alloc_color(gtk.gdk.Color(
-            *colour), False, True))
+        self._main_layout.modify_bg(gtk.StateType.NORMAL, gdk.Color(*colour))
 
     def _display_active_widgets(self):
         """Hide and/or show main window widgets depending on the current
@@ -732,19 +732,19 @@ class MainWindow(gtk.Window):
                 self.menubar.hide_all()
             if (prefs['show scrollbar'] and
               self.zoom_mode == preferences.ZOOM_MODE_WIDTH):
-                self._vscroll.show_all()
-                self._hscroll.hide_all()
+                self._vscroll.set_opacity(1)
+                self._hscroll.set_opacity(0)
             elif (prefs['show scrollbar'] and
               self.zoom_mode == preferences.ZOOM_MODE_HEIGHT):
-                self._vscroll.hide_all()
-                self._hscroll.show_all()
+                self._vscroll.set_opacity(0)
+                self._hscroll.set_opacity(1)
             elif (prefs['show scrollbar'] and
               self.zoom_mode == preferences.ZOOM_MODE_MANUAL):
-                self._vscroll.show_all()
-                self._hscroll.show_all()
+                self._vscroll.set_opacity(1)
+                self._hscroll.set_opacity(1)
             else:
-                self._vscroll.hide_all()
-                self._hscroll.hide_all()
+                self._vscroll.set_opacity(0)
+                self._hscroll.set_opacity(0)
             if prefs['show thumbnails']:
                 self.thumbnailsidebar.show()
             else:
@@ -754,8 +754,8 @@ class MainWindow(gtk.Window):
             self.menubar.hide_all()
             self.statusbar.hide_all()
             self.thumbnailsidebar.hide()
-            self._vscroll.hide_all()
-            self._hscroll.hide_all()
+            self._vscroll.set_opacity(0)
+            self._hscroll.set_opacity(0)
 
     def terminate_program(self, *args):
         """Run clean-up tasks and exit the program."""

@@ -9,7 +9,7 @@ class Statusbar(gtk.Statusbar):
 
     def __init__(self):
         gtk.Statusbar.__init__(self)
-        self.set_has_resize_grip(True)
+        # self.set_has_resize_grip(True)
         self._page_info = ''
         self._resolution = ''
         self._filename = ''
