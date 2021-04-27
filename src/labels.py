@@ -25,9 +25,9 @@ class FormattedLabel(gtk.Label):
     def _format(self):
         text_len = len(self.get_text())
         attrlist = pango.AttrList()
-        attrlist.insert(pango.AttrWeight(self._weight, 0, text_len))
-        attrlist.insert(pango.AttrStyle(self._style, 0, text_len))
-        attrlist.insert(pango.AttrScale(self._scale, 0, text_len))
+        attrlist.insert(pango.attr_weight_new(self._weight))
+        attrlist.insert(pango.attr_style_new(self._style))
+        attrlist.insert(pango.attr_scale_new(self._scale))
         self.set_attributes(attrlist)
 
 

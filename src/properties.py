@@ -35,12 +35,12 @@ class _Page(gtk.VBox):
         self._thumb = gtk.Image()
         topbox.pack_start(self._thumb, False, False)
         borderbox = gtk.EventBox()
-        borderbox.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse('#333'))
+        borderbox.modify_bg(gtk.STATE_NORMAL, gdk.color_parse('#333'))
         borderbox.set_size_request(-1, 130)
         topbox.pack_start(borderbox)
         insidebox = gtk.EventBox()
         insidebox.set_border_width(1)
-        insidebox.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse('#ddb'))
+        insidebox.modify_bg(gtk.STATE_NORMAL, gdk.color_parse('#ddb'))
         borderbox.add(insidebox)
         self._mainbox = gtk.VBox(False, 5)
         self._mainbox.set_border_width(10)
@@ -92,12 +92,12 @@ class _PropertiesDialog(gtk.Dialog):
     def __init__(self, window):
 
         gtk.Dialog.__init__(self, _('Properties'), window, 0,
-            (gtk.STOCK_CLOSE, gtk.RESPONSE_CLOSE))
+            (gtk.STOCK_CLOSE, gtk.ResponseType.CLOSE))
 
         self.set_resizable(False)
         self.set_has_separator(False)
         self.connect('response', _close_dialog)
-        self.set_default_response(gtk.RESPONSE_CLOSE)
+        self.set_default_response(gtk.ResponseType.CLOSE)
         notebook = gtk.Notebook()
         self.set_border_width(4)
         notebook.set_border_width(6)

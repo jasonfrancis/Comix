@@ -81,13 +81,13 @@ class _PreferencesDialog(gtk.Dialog):
     def __init__(self, window):
         self._window = window
         gtk.Dialog.__init__(self, _('Preferences'), window, 0,
-            (gtk.STOCK_CLOSE, gtk.RESPONSE_CLOSE))
+            (gtk.STOCK_CLOSE, gtk.ResponseType.CLOSE))
         self.connect('response', self._response)
-        self.set_has_separator(False)
+        # self.set_has_separator(False)
         self.set_resizable(True)
-        self.set_default_response(gtk.RESPONSE_CLOSE)
+        self.set_default_response(gtk.ResponseType.CLOSE)
         notebook = gtk.Notebook()
-        self.vbox.pack_start(notebook)
+        self.vbox.pack_start(notebook, False, False, 0)
         self.set_border_width(4)
         notebook.set_border_width(6)
         
@@ -114,7 +114,7 @@ class _PreferencesDialog(gtk.Dialog):
         page.new_section(_('Thumbnails'))
         label = gtk.Label('%s:' % _('Thumbnail size (in pixels)'))
         adjustment = gtk.Adjustment(prefs['thumbnail size'], 20, 128, 1, 10)
-        thumb_size_spinner = gtk.SpinButton(adjustment)
+        thumb_size_spinner = gtk.SpinButton.new(adjustment, 0.1, 2)
         thumb_size_spinner.connect('value_changed', self._spinner_cb,
             'thumbnail size')
         page.add_row(label, thumb_size_spinner)
@@ -129,7 +129,7 @@ class _PreferencesDialog(gtk.Dialog):
         page.new_section(_('Magnifying Glass'))
         label = gtk.Label('%s:' % _('Magnifying glass size (in pixels)'))
         adjustment = gtk.Adjustment(prefs['lens size'], 50, 400, 1, 10)
-        glass_size_spinner = gtk.SpinButton(adjustment)
+        glass_size_spinner = gtk.SpinButton.new(adjustment, 0.1, 2)
         glass_size_spinner.connect('value_changed', self._spinner_cb,
             'lens size')
         glass_size_spinner.set_tooltip_text(
@@ -138,7 +138,7 @@ class _PreferencesDialog(gtk.Dialog):
         label = gtk.Label('%s:' % _('Magnification factor'))
         adjustment = gtk.Adjustment(prefs['lens magnification'], 1.1, 10.0,
             0.1, 1.0)
-        glass_magnification_spinner = gtk.SpinButton(adjustment, digits=1)
+        glass_magnification_spinner = gtk.SpinButton.new(adjustment, 0.1, 1)
         glass_magnification_spinner.connect('value_changed', self._spinner_cb,
             'lens magnification')
         glass_magnification_spinner.set_tooltip_text(
@@ -272,7 +272,7 @@ class _PreferencesDialog(gtk.Dialog):
             'default manga mode')
         page.add_row(manga_button)
         label = gtk.Label('%s:' % _('Default zoom mode'))
-        zoom_combo = gtk.combo_box_new_text()
+        zoom_combo = gtk.ComboBoxText.new()
         zoom_combo.append_text(_('Best fit mode'))
         zoom_combo.append_text(_('Fit width mode'))
         zoom_combo.append_text(_('Fit height mode'))
@@ -294,7 +294,7 @@ class _PreferencesDialog(gtk.Dialog):
         label = gtk.Label('%s:' % _('Slideshow delay (in seconds)'))
         adjustment = gtk.Adjustment(prefs['slideshow delay'] / 1000.0,
             0.5, 3600.0, 0.1, 1)
-        delay_spinner = gtk.SpinButton(adjustment, digits=1)
+        delay_spinner = gtk.SpinButton.new(adjustment, 0.10, 1)
         delay_spinner.connect('value_changed', self._spinner_cb,
             'slideshow delay')
         page.add_row(label, delay_spinner)
@@ -398,7 +398,7 @@ class _PreferencePage(gtk.VBox):
         <header>.
         """
         self._section = _PreferenceSection(header, self._right_column_width)
-        self.pack_start(self._section, False, False)
+        self.pack_start(self._section, False, False, 0)
 
     def add_row(self, left_item, right_item=None):
         """Add a row to the page (in the latest section), containing one
@@ -408,11 +408,11 @@ class _PreferencePage(gtk.VBox):
         if isinstance(left_item, gtk.Label):
             left_item.set_alignment(0, 0.5)
         if right_item is None:
-            self._section.contentbox.pack_start(left_item)
+            self._section.contentbox.pack_start(left_item, False, False, 0)
         else:
             left_box, right_box = self._section.new_split_vboxes()
-            left_box.pack_start(left_item)
-            right_box.pack_start(right_item)
+            left_box.pack_start(left_item, False, False, 0)
+            right_box.pack_start(right_item, False, False, 0)
 
 
 class _PreferenceSection(gtk.VBox):
@@ -434,8 +434,8 @@ class _PreferenceSection(gtk.VBox):
         label.set_alignment(0, 0.5)
         hbox = gtk.HBox(False, 0)
         hbox.pack_start(gtk.HBox(), False, False, 6)
-        hbox.pack_start(self.contentbox)
-        self.pack_start(label, False, False)
+        hbox.pack_start(self.contentbox, False, False, 0)
+        self.pack_start(label, False, False, 0)
         self.pack_start(hbox, False, False, 6)
 
     def new_split_vboxes(self):
@@ -449,9 +449,9 @@ class _PreferenceSection(gtk.VBox):
         right_box = gtk.VBox(False, 6)
         right_box.set_size_request(self._right_column_width, -1)
         hbox = gtk.HBox(False, 12)
-        hbox.pack_start(left_box)
-        hbox.pack_start(right_box, False, False)
-        self.contentbox.pack_start(hbox)
+        hbox.pack_start(left_box, False, False, 0)
+        hbox.pack_start(right_box, False, False, 0)
+        self.contentbox.pack_start(hbox, False, False, 0)
         return left_box, right_box
 
 
@@ -476,8 +476,8 @@ def read_preferences_file():
         config = None
         try:
             config = open(_config_path, 'rb')
-            version = cPickle.load(config)
-            old_prefs = cPickle.load(config)
+            version = pickle.load(config)
+            old_prefs = pickle.load(config)
             config.close()
         except Exception:
             print(f'! Corrupt preferences file {_config_path}, deleting...')
@@ -493,6 +493,6 @@ def read_preferences_file():
 def write_preferences_file():
     """Write preference data to disk."""
     config = open(_config_path, 'wb')
-    cPickle.dump(constants.VERSION, config, cPickle.HIGHEST_PROTOCOL)
-    cPickle.dump(prefs, config, cPickle.HIGHEST_PROTOCOL)
+    pickle.dump(constants.VERSION, config, pickle.HIGHEST_PROTOCOL)
+    pickle.dump(prefs, config, pickle.HIGHEST_PROTOCOL)
     config.close()

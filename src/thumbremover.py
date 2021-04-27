@@ -22,7 +22,7 @@ class _ThumbnailMaintenanceDialog(gtk.Dialog):
     def __init__(self, window):
         self._num_thumbs = 0
         gtk.Dialog.__init__(self, _('Thumbnail maintenance'), window, 0,
-            (gtk.STOCK_CLOSE, gtk.RESPONSE_CLOSE))
+            (gtk.STOCK_CLOSE, gtk.ResponseType.CLOSE))
         button = self.add_button(_('Cleanup'), gtk.RESPONSE_OK)
         button.set_image(gtk.image_new_from_stock(
             gtk.STOCK_CLEAR, gtk.ICON_SIZE_BUTTON))
@@ -116,13 +116,13 @@ class _ThumbnailRemover(gtk.Dialog):
         self._total_thumbs = total_thumbs
         self._destroy = False
         gtk.Dialog.__init__(self, _('Removing thumbnails'), parent, 0,
-            (gtk.STOCK_STOP, gtk.RESPONSE_CLOSE))
+            (gtk.STOCK_STOP, gtk.ResponseType.CLOSE))
         self.set_size_request(400, -1)
         self.set_has_separator(False)
         self.set_resizable(False)
         self.set_border_width(4)
         self.connect('response', self._response)
-        self.set_default_response(gtk.RESPONSE_CLOSE)
+        self.set_default_response(gtk.ResponseType.CLOSE)
         main_box = gtk.VBox(False, 5)
         main_box.set_border_width(6)
         self.vbox.pack_start(main_box, False, False)

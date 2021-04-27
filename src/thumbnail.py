@@ -14,7 +14,7 @@ import re
 import shutil
 import tempfile
 
-import gtk
+from gi.repository import Gtk as gtk
 from PIL import Image
 
 import archive
@@ -51,7 +51,7 @@ def get_thumbnail(path, create=True, dst_dir=_thumbdir):
             mtime = -1
         if os.stat(path).st_mtime != mtime:
             return _get_new_thumbnail(path, create, dst_dir)
-        return gtk.gdk.pixbuf_new_from_file(thumbpath)
+        return gdk.pixbuf_new_from_file(thumbpath)
     except Exception:
         return None
 
@@ -122,7 +122,7 @@ def _create_thumbnail(path, dst_dir, image_path=None):
     pixbuf = _get_pixbuf128(image_path)
     if pixbuf is None:
         return None
-    mime, width, height = gtk.gdk.pixbuf_get_file_info(image_path)
+    mime, width, height = gdk.pixbuf_get_file_info(image_path)
     if width <= 128 and height <= 128:
         return pixbuf
     mime = mime['mime_types'][0]
@@ -169,7 +169,7 @@ def _uri_to_thumbpath(uri, dst_dir):
 
 def _get_pixbuf128(path):
     try:
-        return gtk.gdk.pixbuf_new_from_file_at_size(path, 128, 128)
+        return gdk.pixbuf_new_from_file_at_size(path, 128, 128)
     except Exception:
         return None
 

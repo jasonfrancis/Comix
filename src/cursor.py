@@ -1,7 +1,7 @@
 """cursor.py - Cursor handler."""
 
-import gobject
-import gtk
+from gi.repository import GObject as gobject
+from gi.repository import Gtk as gtk
 
 NORMAL, GRAB, WAIT = range(3)
 
@@ -17,14 +17,14 @@ class CursorHandler:
     def set_cursor_type(self, cursor):
         """Set the cursor to type <cursor>. Supported cursor types are
         available as constants in this module. If <cursor> is not one of the
-        cursor constants above, it must be a gtk.gdk.Cursor.
+        cursor constants above, it must be a gdk.Cursor.
         """
         if cursor == NORMAL:
             mode = None
         elif cursor == GRAB:
-            mode = gtk.gdk.Cursor(gtk.gdk.FLEUR)
+            mode = gdk.Cursor(gdk.FLEUR)
         elif cursor == WAIT:
-            mode = gtk.gdk.Cursor(gtk.gdk.WATCH)
+            mode = gdk.Cursor(gdk.WATCH)
         else:
             mode = cursor
         self._window.set_cursor(mode)
@@ -67,6 +67,6 @@ class CursorHandler:
             gobject.source_remove(self._timer_id)
 
     def _get_hidden_cursor(self):
-        pixmap = gtk.gdk.Pixmap(None, 1, 1, 1)
-        color = gtk.gdk.Color()
-        return gtk.gdk.Cursor(pixmap, pixmap, color, color, 0, 0)
+        pixmap = gdk.Pixmap(None, 1, 1, 1)
+        color = gdk.Color()
+        return gdk.Cursor(pixmap, pixmap, color, color, 0, 0)

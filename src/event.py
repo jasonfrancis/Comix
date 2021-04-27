@@ -6,8 +6,9 @@ given its own file for the sake of readability.
 
 import urllib
 
-import gtk
-import gobject
+from gi.repository import Gtk as gtk
+from gi.repository import Gdk as gdk
+from gi.repository import GObject as gobject
 
 import cursor
 import preferences
@@ -220,7 +221,7 @@ class EventHandler:
         """
         if 'GDK_BUTTON2_MASK' in event.state.value_names:
             return
-        if event.direction == gtk.gdk.SCROLL_UP:
+        if event.direction == gdk.SCROLL_UP:
             if self._window.zoom_mode == preferences.ZOOM_MODE_BEST:
                 self._window.previous_page()
             elif self._window.zoom_mode == preferences.ZOOM_MODE_HEIGHT:
@@ -230,7 +231,7 @@ class EventHandler:
                     self._scroll_with_flipping(-70, 0)
             else:
                 self._scroll_with_flipping(0, -70)
-        elif event.direction == gtk.gdk.SCROLL_DOWN:
+        elif event.direction == gdk.SCROLL_DOWN:
             if self._window.zoom_mode == preferences.ZOOM_MODE_BEST:
                 self._window.next_page()
             elif self._window.zoom_mode == preferences.ZOOM_MODE_HEIGHT:
@@ -240,9 +241,9 @@ class EventHandler:
                     self._scroll_with_flipping(70, 0)
             else:
                 self._scroll_with_flipping(0, 70)
-        elif event.direction == gtk.gdk.SCROLL_RIGHT:
+        elif event.direction == gdk.SCROLL_RIGHT:
             self._window.next_page()
-        elif event.direction == gtk.gdk.SCROLL_LEFT:
+        elif event.direction == gdk.SCROLL_LEFT:
             self._window.previous_page()
 
     def mouse_press_event(self, widget, event):
@@ -333,8 +334,8 @@ def _get_latest_event_of_same_type(event):
     events of that type will be removed from the event queue.
     """
     events = []
-    while gtk.gdk.events_pending():
-        queued_event = gtk.gdk.event_get()
+    while gdk.events_pending():
+        queued_event = gdk.event_get()
         if queued_event is not None:
             if queued_event.type == event.type:
                 event = queued_event

@@ -158,8 +158,8 @@ class _BookmarksStore:
         if os.path.isfile(_pickle_path):
             try:
                 fd = open(_pickle_path, 'rb')
-                version = cPickle.load(fd)
-                packs = cPickle.load(fd)
+                version = pickle.load(fd)
+                packs = pickle.load(fd)
                 for pack in packs:
                     self.add_bookmark_by_values(*pack)
                 fd.close()
@@ -216,9 +216,9 @@ class _BookmarksStore:
     def write_bookmarks_file(self):
         """Store relevant bookmark info in the comix directory."""
         fd = open(_pickle_path, 'wb')
-        cPickle.dump(constants.VERSION, fd, cPickle.HIGHEST_PROTOCOL)
+        pickle.dump(constants.VERSION, fd, pickle.HIGHEST_PROTOCOL)
         packs = [bookmark.pack() for bookmark in self._bookmarks]
-        cPickle.dump(packs, fd, cPickle.HIGHEST_PROTOCOL)
+        pickle.dump(packs, fd, pickle.HIGHEST_PROTOCOL)
         fd.close()
 
 
@@ -229,12 +229,12 @@ class _BookmarksDialog(gtk.Dialog):
     def __init__(self, window, bookmarks_store):
         gtk.Dialog.__init__(self, _('Edit bookmarks'), window, gtk.DIALOG_MODAL,
             (gtk.STOCK_REMOVE, gtk.RESPONSE_NO, gtk.STOCK_CLOSE,
-            gtk.RESPONSE_CLOSE))
+            gtk.ResponseType.CLOSE))
         self._bookmarks_store = bookmarks_store
 
         self.set_has_separator(False)
         self.set_resizable(True)
-        self.set_default_response(gtk.RESPONSE_CLOSE)
+        self.set_default_response(gtk.ResponseType.CLOSE)
 
         scrolled = gtk.ScrolledWindow()
         self.set_border_width(4)
@@ -243,7 +243,7 @@ class _BookmarksDialog(gtk.Dialog):
         scrolled.set_policy(gtk.POLICY_AUTOMATIC, gtk.POLICY_AUTOMATIC)
         self.vbox.pack_start(scrolled)
 
-        self._liststore = gtk.ListStore(gtk.gdk.Pixbuf, gobject.TYPE_STRING,
+        self._liststore = gtk.ListStore(gdk.Pixbuf, gobject.TYPE_STRING,
             gobject.TYPE_STRING, _Bookmark)
         self._treeview = gtk.TreeView(self._liststore)
         self._treeview.set_rules_hint(True)
@@ -289,7 +289,7 @@ class _BookmarksDialog(gtk.Dialog):
             self._bookmarks_store.remove_bookmark(bookmark)
 
     def _response(self, dialog, response):
-        if response == gtk.RESPONSE_CLOSE:
+        if response == gtk.ResponseType.CLOSE:
             self._close()
         elif response == gtk.RESPONSE_NO:
             self._remove_selected()

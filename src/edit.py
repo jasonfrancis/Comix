@@ -39,8 +39,8 @@ class _EditArchiveDialog(gtk.Dialog):
             gtk.ICON_SIZE_BUTTON))
         self.set_has_separator(False)
         self.set_border_width(4)
-        self.resize(min(gtk.gdk.screen_get_default().get_width() - 50, 750),
-            min(gtk.gdk.screen_get_default().get_height() - 50, 600))
+        self.resize(min(gdk.screen_get_default().get_width() - 50, 750),
+            min(gdk.screen_get_default().get_height() - 50, 600))
         self.connect('response', self._response)
         
         self._image_area = _ImageArea(self)
@@ -60,7 +60,7 @@ class _EditArchiveDialog(gtk.Dialog):
         """
         self._save_button.set_sensitive(False)
         self._import_button.set_sensitive(False)
-        self.window.set_cursor(gtk.gdk.Cursor(gtk.gdk.WATCH))
+        self.window.set_cursor(gdk.Cursor(gdk.WATCH))
         self._image_area.fetch_images()
         if self.kill: # fetch_images() allows pending events to be handled.
             return False
@@ -73,7 +73,7 @@ class _EditArchiveDialog(gtk.Dialog):
     def _pack_archive(self, archive_path):
         """Create a new archive with the chosen files."""
         self.set_sensitive(False)
-        self.window.set_cursor(gtk.gdk.Cursor(gtk.gdk.WATCH))
+        self.window.set_cursor(gdk.Cursor(gdk.WATCH))
         while gtk.events_pending():
             gtk.main_iteration(False)
         image_files = self._image_area.get_file_listing()
@@ -145,7 +145,7 @@ class _ImageArea(gtk.ScrolledWindow):
         self.set_policy(gtk.POLICY_AUTOMATIC, gtk.POLICY_AUTOMATIC)
         
         # The ListStore layout is (thumbnail, basename, full path).
-        self._liststore = gtk.ListStore(gtk.gdk.Pixbuf, str, str)
+        self._liststore = gtk.ListStore(gdk.Pixbuf, str, str)
         self._iconview = gtk.IconView(self._liststore)
         self._iconview.set_pixbuf_column(0)
         self._iconview.set_tooltip_column(1)
@@ -237,7 +237,7 @@ class _ImageArea(gtk.ScrolledWindow):
         pixmap = iconview.create_drag_icon(path)
         # context.set_icon_pixmap() seems to cause crashes, so we do a
         # quick and dirty conversion to pixbuf.
-        pointer = gtk.gdk.Pixbuf(gtk.gdk.COLORSPACE_RGB, True, 8,
+        pointer = gdk.Pixbuf(gdk.COLORSPACE_RGB, True, 8,
             *pixmap.get_size())
         pointer = pointer.get_from_drawable(pixmap, iconview.get_colormap(),
             0, 0, 0, 0, *pixmap.get_size())

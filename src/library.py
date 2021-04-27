@@ -126,9 +126,9 @@ class _CollectionArea(gtk.ScrolledWindow):
         self._treeview.set_headers_visible(False)
         self._treeview.set_rules_hint(True)
         self._set_acceptable_drop(True)
-        self._treeview.enable_model_drag_source(gtk.gdk.BUTTON1_MASK,
+        self._treeview.enable_model_drag_source(gdk.BUTTON1_MASK,
             [('collection', gtk.TARGET_SAME_WIDGET, _DRAG_COLLECTION_ID)],
-            gtk.gdk.ACTION_MOVE)
+            gdk.ACTION_MOVE)
         cellrenderer = gtk.CellRendererText()
         column = gtk.TreeViewColumn(None, cellrenderer, markup=0)
         self._treeview.append_column(column)
@@ -421,9 +421,9 @@ class _CollectionArea(gtk.ScrolledWindow):
             self._treeview.enable_model_drag_dest(
                 [('book', gtk.TARGET_SAME_APP, _DRAG_BOOK_ID),
                 ('collection', gtk.TARGET_SAME_WIDGET, _DRAG_COLLECTION_ID)],
-                gtk.gdk.ACTION_MOVE)
+                gdk.ACTION_MOVE)
         else:
-            self._treeview.enable_model_drag_dest([], gtk.gdk.ACTION_MOVE)
+            self._treeview.enable_model_drag_dest([], gdk.ACTION_MOVE)
 
     def _drag_begin(self, treeview, context):
         """Create a cursor image for drag-n-drop of collections. We use the
@@ -435,7 +435,7 @@ class _CollectionArea(gtk.ScrolledWindow):
         pixmap = treeview.create_row_drag_icon(path)
         # context.set_icon_pixmap() seems to cause crashes, so we do a
         # quick and dirty conversion to pixbuf.
-        pointer = gtk.gdk.Pixbuf(gtk.gdk.COLORSPACE_RGB, True, 8,
+        pointer = gdk.Pixbuf(gdk.COLORSPACE_RGB, True, 8,
             *pixmap.get_size())
         pointer = pointer.get_from_drawable(pixmap, treeview.get_colormap(),
             0, 0, 0, 0, *pixmap.get_size())
@@ -454,7 +454,7 @@ class _BookArea(gtk.ScrolledWindow):
         self._stop_update = False
         self.set_policy(gtk.POLICY_AUTOMATIC, gtk.POLICY_AUTOMATIC)
         
-        self._liststore = gtk.ListStore(gtk.gdk.Pixbuf, int) # (Cover, ID).
+        self._liststore = gtk.ListStore(gdk.Pixbuf, int) # (Cover, ID).
         self._iconview = gtk.IconView(self._liststore)
         self._iconview.set_pixbuf_column(0)
         self._iconview.connect('item_activated', self._book_activated)
@@ -464,13 +464,13 @@ class _BookArea(gtk.ScrolledWindow):
         self._iconview.connect('drag_data_received', self._drag_data_received)
         self._iconview.connect('button_press_event', self._button_press)
         self._iconview.connect('key_press_event', self._key_press)
-        self._iconview.modify_base(gtk.STATE_NORMAL, gtk.gdk.Color()) # Black.
+        self._iconview.modify_base(gtk.STATE_NORMAL, gdk.Color()) # Black.
         self._iconview.enable_model_drag_source(0,
             [('book', gtk.TARGET_SAME_APP, _DRAG_BOOK_ID)],
-            gtk.gdk.ACTION_MOVE)
+            gdk.ACTION_MOVE)
         self._iconview.drag_dest_set(gtk.DEST_DEFAULT_ALL,
             [('text/uri-list', 0, _DRAG_EXTERNAL_ID)],
-            gdk.DragAction.COPY | gtk.gdk.ACTION_MOVE)
+            gdk.DragAction.COPY | gdk.ACTION_MOVE)
         self._iconview.set_selection_mode(gtk.SELECTION_MULTIPLE)
         self.add(self._iconview)
 
@@ -617,7 +617,7 @@ class _BookArea(gtk.ScrolledWindow):
             return
         # For some reason we don't always get an item_activated event when
         # double-clicking on an icon, so we handle it explicitly here.
-        if event.type == gtk.gdk._2BUTTON_PRESS:
+        if event.type == gdk._2BUTTON_PRESS:
             self._book_activated(iconview, path)
         if event.button == 3:
             if not iconview.path_is_selected(path):
@@ -663,18 +663,18 @@ class _BookArea(gtk.ScrolledWindow):
             cover = self._library.render_icon(gtk.STOCK_MISSING_IMAGE,
                 gtk.ICON_SIZE_DIALOG)
         cover = cover.scale_simple(max(0, cover.get_width() // 2),
-            max(0, cover.get_height() // 2), gtk.gdk.INTERP_TILES)
+            max(0, cover.get_height() // 2), gdk.INTERP_TILES)
         cover = image.add_border(cover, 1, 0xFFFFFFFF)
         cover = image.add_border(cover, 1)
         
         if num_books > 1:
             cover_width = cover.get_width()
             cover_height = cover.get_height()
-            pointer = gtk.gdk.Pixbuf(gtk.gdk.COLORSPACE_RGB, True, 8,
+            pointer = gdk.Pixbuf(gdk.COLORSPACE_RGB, True, 8,
                 max(30, cover_width + 15), max(30, cover_height + 10))
             pointer.fill(0x00000000)
             cover.composite(pointer, 0, 0, cover_width, cover_height, 0, 0,
-            1, 1, gtk.gdk.INTERP_TILES, 255)
+            1, 1, gdk.INTERP_TILES, 255)
             im = Image.new('RGBA', (30, 30), 0x00000000)
             draw = ImageDraw.Draw(im)
             draw.polygon(
@@ -689,7 +689,7 @@ class _BookArea(gtk.ScrolledWindow):
             circle = image.pil_to_pixbuf(im)
             circle.composite(pointer, max(0, cover_width - 15),
                 max(0, cover_height - 20), 30, 30, max(0, cover_width - 15),
-                max(0, cover_height - 20), 1, 1, gtk.gdk.INTERP_TILES, 255)
+                max(0, cover_height - 20), 1, 1, gdk.INTERP_TILES, 255)
         else:
             pointer = cover
 
@@ -737,11 +737,11 @@ class _ControlArea(gtk.HBox):
 
         self.set_border_width(10)
         borderbox = gtk.EventBox()
-        borderbox.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse('#333'))
+        borderbox.modify_bg(gtk.STATE_NORMAL, gdk.color_parse('#333'))
         borderbox.set_size_request(350, -1)
         insidebox = gtk.EventBox()
         insidebox.set_border_width(1)
-        insidebox.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse('#ddb'))
+        insidebox.modify_bg(gtk.STATE_NORMAL, gdk.color_parse('#ddb'))
         infobox = gtk.VBox(False, 5)
         infobox.set_border_width(10)
         self.pack_start(borderbox, False, False)
@@ -910,14 +910,14 @@ class _AddBooksProgressDialog(gtk.Dialog):
         <collection>, unless it is None.
         """
         gtk.Dialog.__init__(self, _('Adding books'), library,
-            gtk.DIALOG_MODAL, (gtk.STOCK_STOP, gtk.RESPONSE_CLOSE))
+            gtk.DIALOG_MODAL, (gtk.STOCK_STOP, gtk.ResponseType.CLOSE))
         self._destroy = False
         self.set_size_request(400, -1)
         self.set_has_separator(False)
         self.set_resizable(False)
         self.set_border_width(4)
         self.connect('response', self._response)
-        self.set_default_response(gtk.RESPONSE_CLOSE)
+        self.set_default_response(gtk.ResponseType.CLOSE)
 
         main_box = gtk.VBox(False, 5)
         main_box.set_border_width(6)

@@ -7,7 +7,7 @@ import zipfile
 import tarfile
 import threading
 
-import gtk
+from gi.repository import Gtk as gtk
 
 import process
 

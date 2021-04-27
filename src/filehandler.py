@@ -57,7 +57,7 @@ class FileHandler:
         if index not in self._raw_pixbufs:
             self._wait_on_page(index + 1)
             try:
-                self._raw_pixbufs[index] = gtk.gdk.pixbuf_new_from_file(
+                self._raw_pixbufs[index] = gdk.pixbuf_new_from_file(
                     self._image_files[index])
             except Exception:
                 self._raw_pixbufs[index] = self._get_missing_image()
@@ -397,7 +397,7 @@ class FileHandler:
         is None, return the size of the current page.
         """
         self._wait_on_page(page)
-        info = gtk.gdk.pixbuf_get_file_info(self.get_path_to_page(page))
+        info = gdk.pixbuf_get_file_info(self.get_path_to_page(page))
         if info is not None:
             return (info[1], info[2])
         return (0, 0)
@@ -407,7 +407,7 @@ class FileHandler:
         <page> is None, return the mime type name of the current page.
         """
         self._wait_on_page(page)
-        info = gtk.gdk.pixbuf_get_file_info(self.get_path_to_page(page))
+        info = gdk.pixbuf_get_file_info(self.get_path_to_page(page))
         if info is not None:
             return info[0]['name'].upper()
         return _('Unknown filetype')
@@ -426,7 +426,7 @@ class FileHandler:
             thumb = thumbnail.get_thumbnail(path, create)
         else:
             try:
-                thumb = gtk.gdk.pixbuf_new_from_file_at_size(path, width,
+                thumb = gdk.pixbuf_new_from_file_at_size(path, width,
                     height)
             except Exception:
                 thumb = None
@@ -541,7 +541,7 @@ def is_image_file(path):
     """Return True if the file at <path> is an image file recognized by PyGTK.
     """
     if os.path.isfile(path):
-        info = gtk.gdk.pixbuf_get_file_info(path)
+        info = gdk.pixbuf_get_file_info(path)
         return info is not None
     return False
 

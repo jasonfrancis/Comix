@@ -986,7 +986,7 @@ Comix 0.7
 
     - Added a new "bookmark" feature.
     
-    - Now reads any image format supported by gtk.gdk.Pixbuf (that
+    - Now reads any image format supported by gdk.Pixbuf (that
     means most formats).
     
     - Fixed a bug with capital letters not working as hotkeys.
@@ -1078,7 +1078,7 @@ Comix 0.2
     - Now uses the shutil module to move and delete files instead
     of calling the `rm' and `mv' programs.
     
-    - Now uses gtk.gdk.pixbuf_get_file_info() to check image file types
+    - Now uses gdk.pixbuf_get_file_info() to check image file types
     and the `file' program to check filetypes for ZIP/RAR archives.
     Filename extensions should no longer matter for Comix.
     
