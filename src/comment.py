@@ -2,8 +2,8 @@
 
 import os
 
-import gtk
-import pango
+from gi.repository import Gtk as gtk
+from gi.repository import Pango as pango
 
 import encoding
 

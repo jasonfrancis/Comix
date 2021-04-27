@@ -1,10 +1,11 @@
 """preferences.py - Preference handler."""
 
 import os
-import cPickle
+import pickle
 
-import gtk
-import pango
+from gi.repository import Gtk as gtk
+from gi.repository import Gdk as gdk
+from gi.repository import Pango as pango
 
 import constants
 import labels
@@ -57,14 +58,14 @@ prefs = {
     'vertical flip': False,
     'horizontal flip': False,
     'keep transformation': False,
-    'window height': gtk.gdk.screen_get_default().get_height() * 3 // 4,
-    'window width': min(gtk.gdk.screen_get_default().get_width() * 3 // 4,
-                        gtk.gdk.screen_get_default().get_height() * 5 // 8),
+    'window height': gdk.Screen.get_default().get_height() * 3 // 4,
+    'window width': min(gdk.Screen.get_default().get_width() * 3 // 4,
+                        gdk.Screen.get_default().get_height() * 5 // 8),
     'library cover size': 128,
     'auto add books into collections': True,
     'last library collection': None,
-    'lib window height': gtk.gdk.screen_get_default().get_height() * 3 // 4,
-    'lib window width': gtk.gdk.screen_get_default().get_width() * 3 // 4
+    'lib window height': gdk.Screen.get_default().get_height() * 3 // 4,
+    'lib window width': gdk.Screen.get_default().get_width() * 3 // 4
 }
 
 _config_path = os.path.join(constants.CONFIG_DIR, 'preferences.pickle')
@@ -99,7 +100,7 @@ class _PreferencesDialog(gtk.Dialog):
             _('Use this colour as background'))
         fixed_bg_button.set_tooltip_text(
             _('Always use this selected colour as the background colour.'))
-        color_button = gtk.ColorButton(gtk.gdk.Color(*prefs['bg colour']))
+        color_button = gtk.ColorButton(gdk.Color(*prefs['bg colour']))
         color_button.connect('color_set', self._color_button_cb)
         page.add_row(fixed_bg_button, color_button)
         dynamic_bg_button = gtk.RadioButton(fixed_bg_button,
@@ -479,7 +480,7 @@ def read_preferences_file():
             old_prefs = cPickle.load(config)
             config.close()
         except Exception:
-            print '! Corrupt preferences file "%s", deleting...' % _config_path
+            print(f'! Corrupt preferences file {_config_path}, deleting...')
             if config is not None:
                 config.close()
             os.remove(_config_path)

@@ -5,8 +5,8 @@ import os
 import shutil
 import threading
 
-import gtk
-import gobject
+from gi.repository import Gtk as gtk
+from gi.repository import GObject as gobject
 
 import constants
 import cursor
@@ -32,7 +32,7 @@ class MainWindow(gtk.Window):
 
     def __init__(self, fullscreen=False, show_library=False, open_path=None,
             open_page=1):
-        gtk.Window.__init__(self, gtk.WINDOW_TOPLEVEL)
+        gtk.Window.__init__(self, gtk.WindowType.TOPLEVEL)
 
         # ----------------------------------------------------------------
         # Attributes
@@ -170,7 +170,7 @@ class MainWindow(gtk.Window):
                                      gtk.gdk.POINTER_MOTION_MASK)
         self._main_layout.drag_dest_set(gtk.DEST_DEFAULT_ALL,
                                         [('text/uri-list', 0, 0)],
-                                        gtk.gdk.ACTION_COPY |
+                                        gdk.DragAction.COPY |
                                         gtk.gdk.ACTION_MOVE)
 
         self.connect('delete_event', self.terminate_program)
@@ -775,5 +775,5 @@ class MainWindow(gtk.Window):
         for thread in threading.enumerate():
             if thread is not threading.currentThread():
                 thread.join()
-        print 'Bye!'
+        print('Bye!')
         sys.exit(0)

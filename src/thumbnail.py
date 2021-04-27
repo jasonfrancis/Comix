@@ -5,7 +5,7 @@ Only normal size (i.e. 128x128 px) thumbnails are supported.
 """
 
 import os
-from urllib import pathname2url, url2pathname
+from urllib.request import pathname2url, url2pathname
 try: # The md5 module is deprecated as of Python 2.5, replaced by hashlib.
     from hashlib import md5
 except ImportError:
@@ -144,12 +144,12 @@ def _create_thumbnail(path, dst_dir, image_path=None):
     }
     try:
         if not os.path.isdir(dst_dir):
-            os.makedirs(dst_dir, 0700)
+            os.makedirs(dst_dir, 0o700)
         pixbuf.save(thumbpath + '-comixtemp', 'png', tEXt_data)
         os.rename(thumbpath + '-comixtemp', thumbpath)
-        os.chmod(thumbpath, 0600)
+        os.chmod(thumbpath, 0o600)
     except Exception:
-        print '! thumbnail.py: Could not write', thumbpath, '\n'
+        print ('! thumbnail.py: Could not write', thumbpath, '\n')
     return pixbuf
 
 

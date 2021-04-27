@@ -3,7 +3,7 @@
 import os
 import shutil
 
-import gtk
+from gi.repository import Gtk as gtk
 
 import constants
 
@@ -30,7 +30,7 @@ class _CleanerDialog(gtk.MessageDialog):
                     else:
                         os.remove(path)
                 except Exception:
-                    print '! Could not remove', path
+                    print('! Could not remove', path)
         self.destroy()
 
 

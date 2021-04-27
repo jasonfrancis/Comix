@@ -4,7 +4,7 @@ Logically this isn't really a separate module from main.py, but it is
 given it's own file for the sake of readability.
 """
 
-import gtk
+from gi.repository import Gtk as gtk
 
 import about
 import bookmark

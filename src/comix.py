@@ -26,41 +26,33 @@ import sys
 import gettext
 import getopt
 
+from gi import require_version
+
+
 #Check for PyGTK and PIL dependencies.
 try:
-    import pygtk
-    pygtk.require('2.0')
-    import gtk
-    assert gtk.gtk_version >= (2, 12, 0)
-    assert gtk.pygtk_version >= (2, 12, 0)
-except AssertionError:
-    print "You don't have the required versions of GTK+ and/or PyGTK",
-    print 'installed.'
-    print 'Installed GTK+ version is: %s' % (
-        '.'.join([str(n) for n in gtk.gtk_version]))
-    print 'Required GTK+ version is: 2.12.0 or higher\n'
-    print 'Installed PyGTK version is: %s' % (
-        '.'.join([str(n) for n in gtk.pygtk_version]))
-    print 'Required PyGTK version is: 2.12.0 or higher'
-    sys.exit(1)
+    import gi
+    gi.require_version("Gtk", "3.0")
+    from gi.repository import Gtk as gtk
 except ImportError:
-    print 'PyGTK version 2.12.0 or higher is required to run Comix.'
-    print 'No version of PyGTK was found on your system.'
+    print('PyGObject Gtk version 3.0 or higher is required to run Comix.')
+    print('No version of PyGObject Gtk was found on your system.')
     sys.exit(1)
 
 try:
+    import PIL
     from PIL import Image
-    assert Image.PILLOW_VERSION >= '1.1.5'
+    assert PIL.__version__ >= '7.0.0'
 except AssertionError:
-    print "You don't have the required version of the Python Imaging",
-    print 'Library (PIL) installed.'
-    print 'Installed PIL version is: %s' % Image.PILLOW_VERSION
-    print 'Required PIL version is: 1.1.5 or higher'
+    print("You don't have the required version of the Python Imaging"),
+    print('Library (PIL) installed.')
+    print(f'Installed PIL version is: {PIL.__version__}')
+    print('Required PIL version is: 7.0.0 or higher')
     sys.exit(1)
 except ImportError:
-    print 'Python Imaging Library (PIL) 1.1.5 or higher is required.'
-    print 'No version of the Python Imaging Library was found on your',
-    print 'system.'
+    print('Python Imaging Library (PIL) 1.1.5 or higher is required.')
+    print('No version of the Python Imaging Library was found on your'),
+    print('system.')
     sys.exit(1)
 
 import constants
@@ -73,14 +65,14 @@ import preferences
 
 
 def print_help():
-    """Print the command-line help text and exit."""
-    print 'Usage:'
-    print '  comix [OPTION...] [PATH]'
-    print '\nView images and comic book archives.\n'
-    print 'Options:'
-    print '  -h, --help              Show this help and exit.'
-    print '  -f, --fullscreen        Start the application in fullscreen mode.'
-    print '  -l, --library           Show the library on startup.'
+    """Print(the command-line help text and exit."""
+    print('Usage:')
+    print('  comix [OPTION...] [PATH]')
+    print('\nView images and comic book archives.\n')
+    print('Options:')
+    print('  -h, --help              Show this help and exit.')
+    print('  -f, --fullscreen        Start the application in fullscreen mode.')
+    print('  -l, --library           Show the library on startup.')
     sys.exit(1)
 
 
@@ -91,11 +83,9 @@ def run():
     exec_path = os.path.abspath(sys.argv[0])
     base_dir = os.path.dirname(os.path.dirname(exec_path))
     if os.path.isdir(os.path.join(base_dir, 'messages')):
-        gettext.install('comix', os.path.join(base_dir, 'messages'),
-            unicode=True)
+        gettext.install('comix', os.path.join(base_dir, 'messages'))
     else:
-        gettext.install('comix', os.path.join(base_dir, 'share/locale'),
-            unicode=True)
+        gettext.install('comix', os.path.join(base_dir, 'share/locale'))
 
     fullscreen = False
     show_library = False
@@ -115,9 +105,9 @@ def run():
             show_library = True
 
     if not os.path.exists(constants.DATA_DIR):
-        os.makedirs(constants.DATA_DIR, 0700)
+        os.makedirs(constants.DATA_DIR, 0o700)
     if not os.path.exists(constants.CONFIG_DIR):
-        os.makedirs(constants.CONFIG_DIR, 0700)
+        os.makedirs(constants.CONFIG_DIR, 0o700)
     deprecated.move_files_to_xdg_dirs()
     preferences.read_preferences_file()
     icons.load_icons()

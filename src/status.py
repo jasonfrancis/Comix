@@ -1,6 +1,6 @@
 """status.py - Statusbar for main window."""
 
-import gtk
+from gi.repository import Gtk as gtk
 
 import encoding
 

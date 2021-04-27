@@ -1,7 +1,7 @@
 """labels.py - gtk.Label convenience classes."""
 
-import gtk
-import pango
+from gi.repository import Gtk as gtk
+from gi.repository import Pango as pango
 
 
 class FormattedLabel(gtk.Label):
@@ -10,8 +10,8 @@ class FormattedLabel(gtk.Label):
     style and scale, even when new text is set using set_text().
     """
     
-    def __init__(self, text='', weight=pango.WEIGHT_NORMAL,
-      style=pango.STYLE_NORMAL, scale=pango.SCALE_MEDIUM):
+    def __init__(self, text='', weight=pango.Weight.NORMAL,
+      style=pango.Style.NORMAL, scale=1.0):
         gtk.Label.__init__(self, text)
         self._weight = weight
         self._style = style
@@ -36,7 +36,7 @@ class BoldLabel(FormattedLabel):
     """A FormattedLabel that is always bold and otherwise normal."""
     
     def __init__(self, text=''):
-        FormattedLabel.__init__(self, text, weight=pango.WEIGHT_BOLD)
+        FormattedLabel.__init__(self, text, weight=pango.Weight.BOLD)
 
 
 class ItalicLabel(FormattedLabel):
@@ -44,4 +44,4 @@ class ItalicLabel(FormattedLabel):
     """A FormattedLabel that is always italic and otherwise normal."""
     
     def __init__(self, text=''):
-        FormattedLabel.__init__(self, text, style=pango.STYLE_ITALIC)
+        FormattedLabel.__init__(self, text, style=pango.Style.ITALIC)

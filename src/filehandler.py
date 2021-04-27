@@ -10,7 +10,7 @@ import shutil
 import threading
 import re
 
-import gtk
+from gi.repository import Gtk as gtk
 
 import archive
 import cursor

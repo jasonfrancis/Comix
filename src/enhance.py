@@ -2,7 +2,7 @@
 brightness etc.)
 """
 
-import gtk
+from gi.repository import Gtk as gtk
 
 import histogram
 import image

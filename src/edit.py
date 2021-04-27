@@ -3,9 +3,9 @@
 import os
 import tempfile
 
-import gobject
-import gtk
-import pango
+from gi.repository import GObject as gobject
+from gi.repository import Gtk as gtk
+from gi.repository import Pango as pango
 
 import archive
 import cursor

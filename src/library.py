@@ -5,9 +5,10 @@ import gc
 import urllib
 from xml.sax.saxutils import escape as xmlescape
 
-import gtk
-import gobject
-import pango
+from gi.repository import GObject as gobject
+from gi.repository import Gtk as gtk
+from gi.repository import Pango as pango
+
 from PIL import Image
 from PIL import ImageDraw
 
@@ -469,7 +470,7 @@ class _BookArea(gtk.ScrolledWindow):
             gtk.gdk.ACTION_MOVE)
         self._iconview.drag_dest_set(gtk.DEST_DEFAULT_ALL,
             [('text/uri-list', 0, _DRAG_EXTERNAL_ID)],
-            gtk.gdk.ACTION_COPY | gtk.gdk.ACTION_MOVE)
+            gdk.DragAction.COPY | gtk.gdk.ACTION_MOVE)
         self._iconview.set_selection_mode(gtk.SELECTION_MULTIPLE)
         self.add(self._iconview)
 
@@ -968,7 +969,7 @@ def open_dialog(action, window):
     global _dialog
     if _dialog is None:
         if librarybackend.dbapi2 is None:
-            print '! You need an sqlite wrapper to use the library.'
+            print('! You need an sqlite wrapper to use the library.')
         else:
             _dialog = _LibraryDialog(window)
     else:

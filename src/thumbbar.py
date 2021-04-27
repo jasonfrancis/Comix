@@ -2,8 +2,10 @@
 
 import urllib
 
-import gtk
-import gobject
+from gi.repository import Gtk as gtk
+from gi.repository import Gdk as gdk
+from gi.repository import GdkPixbuf as gdkPixbuf
+from gi.repository import GObject as gobject
 from PIL import Image
 from PIL import ImageDraw
 
@@ -23,11 +25,11 @@ class ThumbnailSidebar(gtk.HBox):
         self._load_task = None
         self._height = 0
 
-        self._liststore = gtk.ListStore(gtk.gdk.Pixbuf)
+        self._liststore = gtk.ListStore(gdkPixbuf.Pixbuf)
         self._treeview = gtk.TreeView(self._liststore)
 
-        self._treeview.enable_model_drag_source(gtk.gdk.BUTTON1_MASK,
-            [('text/uri-list', 0, 0)], gtk.gdk.ACTION_COPY)
+        self._treeview.enable_model_drag_source(gdk.ModifierType.BUTTON1_MASK,
+            [('text/uri-list', 0, 0)], gdk.DragAction.COPY)
 
         self._column = gtk.TreeViewColumn(None)
         cellrenderer = gtk.CellRendererPixbuf()
@@ -152,9 +154,9 @@ class ThumbnailSidebar(gtk.HBox):
 
     def _scroll_event(self, widget, event):
         """Handle scroll events on the thumbnail sidebar."""
-        if event.direction == gtk.gdk.SCROLL_UP:
+        if event.direction == gdk.SCROLL_UP:
             self._vadjust.set_value(self._vadjust.get_value() - 60)
-        elif event.direction == gtk.gdk.SCROLL_DOWN:
+        elif event.direction == gdk.SCROLL_DOWN:
             upper = self._vadjust.upper - self._vadjust.page_size
             self._vadjust.set_value(min(self._vadjust.get_value() + 60, upper))
 
@@ -179,7 +181,7 @@ class ThumbnailSidebar(gtk.HBox):
         pixmap = treeview.create_row_drag_icon(path)
         # context.set_icon_pixmap() seems to cause crashes, so we do a
         # quick and dirty conversion to pixbuf.
-        pointer = gtk.gdk.Pixbuf(gtk.gdk.COLORSPACE_RGB, True, 8,
+        pointer = gdk.Pixbuf(gdk.COLORSPACE_RGB, True, 8,
             *pixmap.get_size())
         pointer = pointer.get_from_drawable(pixmap, treeview.get_colormap(),
             0, 0, 0, 0, *pixmap.get_size())

@@ -3,7 +3,8 @@
 import os
 import sys
 
-import gtk
+from gi.repository import Gtk as gtk
+from gi.repository import GdkPixbuf as gdkPixbuf
 
 def load_icons():
     _icons = (('gimp-flip-horizontal.png',   'comix-flip-horizontal'),
@@ -44,17 +45,17 @@ def load_icons():
         return
     
     # Load window title icon.
-    pixbuf = gtk.gdk.pixbuf_new_from_file(os.path.join(icon_path,
+    pixbuf = gdkPixbuf.Pixbuf.new_from_file(os.path.join(icon_path,
         '16x16/comix.png'))
-    gtk.window_set_default_icon(pixbuf)
+    gtk.Window.set_default_icon(pixbuf)
     # Load application icons.
     factory = gtk.IconFactory()
     for filename, stockid in _icons:
         try:
             filename = os.path.join(icon_path, filename)
-            pixbuf = gtk.gdk.pixbuf_new_from_file(filename)
+            pixbuf = gdkPixbuf.Pixbuf.new_from_file(filename)
             iconset = gtk.IconSet(pixbuf)
             factory.add(stockid, iconset)
         except Exception:
-            print '! Could not load icon "%s".' % filename
+            print('! Could not load icon "%s".' % filename)
     factory.add_default()

@@ -5,8 +5,8 @@ Removes and cleans up outdated and orphaned thumbnails.
 import os
 import urllib
 
-import gtk
-import pango
+from gi.repository import Gtk as gtk
+from gi.repository import Pango as pango
 from PIL import Image
 
 import encoding
@@ -38,7 +38,7 @@ class _ThumbnailMaintenanceDialog(gtk.Dialog):
         label = labels.BoldLabel(_('Cleanup thumbnails'))
         label.set_alignment(0, 0.5)
         attrlist = label.get_attributes()
-        attrlist.insert(pango.AttrScale(pango.SCALE_LARGE, 0,
+        attrlist.insert(pango.AttrScale(1.2, 0,
             len(label.get_text())))
         label.set_attributes(attrlist)
         main_box.pack_start(label, False, False, 2)

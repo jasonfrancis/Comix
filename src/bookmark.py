@@ -1,10 +1,10 @@
 """bookmark.py - Bookmarks handler (including menu and dialog)."""
 
 import os
-import cPickle
+import pickle
 
-import gtk
-import gobject
+from gi.repository import Gtk as gtk
+from gi.repository import GObject as gobject
 
 import constants
 import constants
@@ -164,8 +164,8 @@ class _BookmarksStore:
                     self.add_bookmark_by_values(*pack)
                 fd.close()
             except Exception:
-                print '! bookmark.py: Could not parse', _pickle_path
-                print '! bookmark.py: Deleting corrupt bookmarks file.\n'
+                print('! bookmark.py: Could not parse', _pickle_path)
+                print('! bookmark.py: Deleting corrupt bookmarks file.\n')
                 os.remove(_pickle_path)
                 self.clear_bookmarks()
 

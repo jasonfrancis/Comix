@@ -2,8 +2,8 @@
 
 import os
 
-import gtk
-import pango
+from gi.repository import Gtk as gtk
+from gi.repository import Pango as pango
 
 import encoding
 import image
@@ -19,7 +19,7 @@ class _ComicFileChooserDialog(gtk.Dialog):
 
     """We roll our own FileChooserDialog because the one in GTK seems
     buggy with the preview widget. The <action> argument dictates what type
-    of filechooser dialog we want (i.e. it is gtk.FILE_CHOOSER_ACTION_OPEN
+    of filechooser dialog we want (i.e. it is gtk.FileChooserAction.OPEN
     or gtk.FILE_CHOOSER_ACTION_SAVE).
     
     This is a base class for the _MainFileChooserDialog, the
@@ -32,9 +32,9 @@ class _ComicFileChooserDialog(gtk.Dialog):
     
     _last_activated_file = None
 
-    def __init__(self, action=gtk.FILE_CHOOSER_ACTION_OPEN):
+    def __init__(self, action=gtk.FileChooserAction.OPEN):
         self._action = action
-        if action == gtk.FILE_CHOOSER_ACTION_OPEN:
+        if action == gtk.FileChooserAction.OPEN:
             title = _('Open')
             buttons = (gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL,
                 gtk.STOCK_OPEN, gtk.RESPONSE_OK)
@@ -62,11 +62,11 @@ class _ComicFileChooserDialog(gtk.Dialog):
         self._preview_image.set_size_request(130, 130)
         preview_box.pack_start(self._preview_image, False, False)
         self.filechooser.set_preview_widget(preview_box)
-        self._namelabel = labels.FormattedLabel(weight=pango.WEIGHT_BOLD,
-            scale=pango.SCALE_SMALL)
+        self._namelabel = labels.FormattedLabel(weight=pango.Weight.BOLD,
+            scale=0.8333333333333 )
         self._namelabel.set_ellipsize(pango.ELLIPSIZE_MIDDLE)
         preview_box.pack_start(self._namelabel, False, False)
-        self._sizelabel = labels.FormattedLabel(scale=pango.SCALE_SMALL)
+        self._sizelabel = labels.FormattedLabel(scale=0.8333333333333 )
         self._sizelabel.set_ellipsize(pango.ELLIPSIZE_MIDDLE)
         preview_box.pack_start(self._sizelabel, False, False)
         self.filechooser.set_use_preview_label(False)
@@ -281,9 +281,9 @@ class StandAloneFileChooserDialog(_ComicFileChooserDialog):
     use multiple selection by default.
     """
     
-    def __init__(self, action=gtk.FILE_CHOOSER_ACTION_OPEN):
+    def __init__(self, action=gtk.FileChooserAction.OPEN):
         _ComicFileChooserDialog.__init__(self, action)
-        if action == gtk.FILE_CHOOSER_ACTION_OPEN:
+        if action == gtk.FileChooserAction.OPEN:
             self.filechooser.set_select_multiple(True)
         self._paths = None
 

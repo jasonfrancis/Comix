@@ -9,8 +9,8 @@ except ImportError:
     # Running on non-Unix machine.
     pass
 
-import gtk
-import pango
+from gi.repository import Gtk as gtk
+from gi.repository import Pango as pango
 
 import archive
 import encoding

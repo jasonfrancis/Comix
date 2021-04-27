@@ -60,7 +60,7 @@ class Extractor:
             if _rar_exec is None:
                 _rar_exec = _get_rar_exec()
                 if _rar_exec is None:
-                    print '! Could not find RAR file extractor.'
+                    print('! Could not find RAR file extractor.')
                     dialog = gtk.MessageDialog(None, 0, gtk.MESSAGE_WARNING,
                         gtk.BUTTONS_CLOSE,
                         _("Could not find RAR file extractor!"))
@@ -75,7 +75,7 @@ class Extractor:
             fd.close()
             proc.wait()
         else:
-            print '! Non-supported archive format:', src
+            print('! Non-supported archive format:', src)
             return None
 
         self._setupped = True
@@ -170,7 +170,7 @@ class Extractor:
                   self._dst):
                     self._tfile.extract(name, self._dst)
                 else:
-                    print '! Non-local tar member:', name, '\n'
+                    print('! Non-local tar member:', name, '\n')
             elif self._type == RAR:
                 if _rar_exec is not None:
                     proc = process.Process([_rar_exec, 'x', '-p-', '-o-',
@@ -178,7 +178,7 @@ class Extractor:
                     proc.spawn()
                     proc.wait()
                 else:
-                    print '! Could not find RAR file extractor.'
+                    print('! Could not find RAR file extractor.')
         except Exception:
             # Better to ignore any failed extractions (e.g. from a corrupt
             # archive) than to crash here and leave the main thread in a
@@ -238,7 +238,7 @@ class Packer:
         try:
             zfile = zipfile.ZipFile(self._archive_path, 'w')
         except Exception:
-            print '! Could not create archive', self._archive_path
+            print('! Could not create archive', self._archive_path)
             return
         used_names = []
         pattern = '%%0%dd - %s%%s' % (len(str(len(self._image_files))),
@@ -248,8 +248,8 @@ class Packer:
             try:
                 zfile.write(path, filename, zipfile.ZIP_STORED)
             except Exception:
-                print '! Could not add file %s to add to %s, aborting...' % (
-                    path, self._archive_path)
+                print('! Could not add file %s to add to %s, aborting...' % (
+                    path, self._archive_path))
                 zfile.close()
                 try:
                     os.remove(self._archive_path)
@@ -264,8 +264,8 @@ class Packer:
             try:
                 zfile.write(path, filename, zipfile.ZIP_DEFLATED)
             except Exception:
-                print '! Could not add file %s to add to %s, aborting...' % (
-                    path, self._archive_path)
+                print('! Could not add file %s to add to %s, aborting...' % (
+                    path, self._archive_path))
                 zfile.close()
                 try:
                     os.remove(self._archive_path)
@@ -296,7 +296,7 @@ def archive_mime_type(path):
             if magic == 'Rar!':
                 return RAR
     except Exception:
-        print '! Error while reading', path
+        print('! Error while reading', path)
     return None
 
 
