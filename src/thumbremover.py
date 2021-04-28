@@ -84,7 +84,7 @@ class _ThumbnailMaintenanceDialog(gtk.Dialog):
 
         self.show_all()
         while gtk.events_pending():
-            gtk.main_iteration(False)
+            gtk.main_iteration()
         self._update_num_and_size()
 
     def _update_num_and_size(self):
@@ -196,7 +196,7 @@ class _ThumbnailRemover(gtk.Dialog):
                 if iteration % 50 == 0:
                     bar.set_fraction(iteration / self._total_thumbs)
                 while gtk.events_pending():
-                    gtk.main_iteration(False)
+                    gtk.main_iteration()
 
         self._response()
 

@@ -130,7 +130,7 @@ class ThumbnailSidebar(gtk.HBox):
             pixbuf = image.add_border(pixbuf, 1)
             self._liststore.append([pixbuf])
             while gtk.events_pending():
-                gtk.main_iteration(False)
+                gtk.main_iteration()
             if self._stop_update:
                 return
             self._height += self._treeview.get_background_area(i - 1,

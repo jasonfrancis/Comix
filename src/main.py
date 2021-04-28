@@ -360,7 +360,7 @@ class MainWindow(gtk.Window):
         self.statusbar.update()
         self.update_title()
         while gtk.events_pending():
-            gtk.main_iteration(False)
+            gtk.main_iteration()
         enhance.draw_histogram(self.left_image)
         self.file_handler.do_cacheing()
         self.thumbnailsidebar.load_thumbnails()

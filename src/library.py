@@ -519,7 +519,7 @@ class _BookArea(gtk.ScrolledWindow):
             self._add_book(book)
             if i % 15 == 0: # Don't update GUI for every cover for efficiency.
                 while gtk.events_pending():
-                    gtk.main_iteration(False)
+                    gtk.main_iteration()
                 if self._stop_update:
                     return
         self._stop_update = True
@@ -955,7 +955,7 @@ class _AddBooksProgressDialog(gtk.Dialog):
                 encoding.to_unicode(path))
             bar.set_fraction((i + 1) / total_paths)
             while gtk.events_pending():
-                gtk.main_iteration(False)
+                gtk.main_iteration()
             if self._destroy:
                 return
         self._response()

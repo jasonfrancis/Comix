@@ -75,7 +75,7 @@ class _EditArchiveDialog(gtk.Dialog):
         self.set_sensitive(False)
         self.window.set_cursor(gdk.Cursor(gdk.WATCH))
         while gtk.events_pending():
-            gtk.main_iteration(False)
+            gtk.main_iteration()
         image_files = self._image_area.get_file_listing()
         other_files = self._other_area.get_file_listing()
         try:
@@ -183,7 +183,7 @@ class _ImageArea(gtk.ScrolledWindow):
                 encoding.to_unicode(os.path.basename(path)), path])
             if page % 10 == 0:
                 while gtk.events_pending():
-                    gtk.main_iteration(False)
+                    gtk.main_iteration()
                 if self._edit_dialog.kill:
                     return
 

@@ -227,7 +227,7 @@ class FileHandler:
         if self.file_loaded:
             self.close_file()
         while gtk.events_pending():
-            gtk.main_iteration(False)
+            gtk.main_iteration()
 
         # If <path> is an archive we create an Extractor for it and set the
         # files in it with file endings indicating image files or comments
