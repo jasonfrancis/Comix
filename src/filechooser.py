@@ -221,7 +221,7 @@ class _LibraryFileChooserDialog(_ComicFileChooserDialog):
         self.filechooser.connect('current_folder_changed',
             self._set_collection_name)
         
-        self._collection_button = gtk.CheckButton(
+        self._collection_button = gtk.CheckButton.new_with_label(
             '%s:' % _('Automatically add the books to this collection'),
             False)
         self._collection_button.set_active(
