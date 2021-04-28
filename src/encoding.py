@@ -10,11 +10,11 @@ def to_unicode(string):
     encoding, and then fall back on some common encodings. If none
     of the convertions are successful, "???" is returned.
     """
-    if isinstance(string, unicode):
+    if isinstance(string, str):
         return string
     for encoding in (_filesystemencoding, 'utf-8', 'latin-1'):
         try:
-            ustring = unicode(string, encoding)
+            ustring = str(string, encoding)
             return ustring
         except (UnicodeError, LookupError):
             pass
