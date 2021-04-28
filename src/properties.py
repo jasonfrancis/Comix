@@ -95,7 +95,7 @@ class _PropertiesDialog(gtk.Dialog):
             (gtk.STOCK_CLOSE, gtk.ResponseType.CLOSE))
 
         self.set_resizable(False)
-        self.set_has_separator(False)
+        # self.set_has_separator(False)
         self.connect('response', _close_dialog)
         self.set_default_response(gtk.ResponseType.CLOSE)
         notebook = gtk.Notebook()

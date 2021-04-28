@@ -50,11 +50,11 @@ class _EnhanceImageDialog(gtk.Dialog):
     def __init__(self, window):
         gtk.Dialog.__init__(self, _('Enhance image'), window, 0)
         self.add_buttons(_('Defaults'), gtk.RESPONSE_NO,
-            gtk.STOCK_OK, gtk.RESPONSE_OK)
-        self.set_has_separator(False)
+            gtk.STOCK_OK, gtk.ResponseType.OK)
+        # self.set_has_separator(False)
         self.set_resizable(False)
         self.connect('response', self._response)
-        self.set_default_response(gtk.RESPONSE_OK)
+        self.set_default_response(gtk.ResponseType.OK)
 
         self._enhancer = window.enhancer
         self._block = False
@@ -165,7 +165,7 @@ class _EnhanceImageDialog(gtk.Dialog):
         self._enhancer.signal_update()
 
     def _response(self, dialog, response):
-        if response in [gtk.RESPONSE_OK, gtk.RESPONSE_DELETE_EVENT]:
+        if response in [gtk.ResponseType.OK, gtk.RESPONSE_DELETE_EVENT]:
             _close_dialog()
         elif response == gtk.RESPONSE_NO:
             self._block = True

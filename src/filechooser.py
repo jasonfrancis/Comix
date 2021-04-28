@@ -37,15 +37,15 @@ class _ComicFileChooserDialog(gtk.Dialog):
         if action == gtk.FileChooserAction.OPEN:
             title = _('Open')
             buttons = (gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL,
-                gtk.STOCK_OPEN, gtk.RESPONSE_OK)
+                gtk.STOCK_OPEN, gtk.ResponseType.OK)
         else:
             title = _('Save')
             buttons = (gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL,
-                gtk.STOCK_SAVE, gtk.RESPONSE_OK)
+                gtk.STOCK_SAVE, gtk.ResponseType.OK)
 
         gtk.Dialog.__init__(self, title, None, 0, buttons)
-        self.set_default_response(gtk.RESPONSE_OK)
-        self.set_has_separator(False)
+        self.set_default_response(gtk.ResponseType.OK)
+        # self.set_has_separator(False)
 
         self.filechooser = gtk.FileChooserWidget(action=action)
         self.filechooser.set_size_request(680, 420)
@@ -54,7 +54,7 @@ class _ComicFileChooserDialog(gtk.Dialog):
         self.filechooser.set_border_width(6)
         self.connect('response', self._response)
         self.filechooser.connect('file_activated', self._response,
-            gtk.RESPONSE_OK)
+            gtk.ResponseType.OK)
 
         preview_box = gtk.VBox(False, 10)
         preview_box.set_size_request(130, 0)
@@ -122,7 +122,7 @@ class _ComicFileChooserDialog(gtk.Dialog):
         """Return a list of the paths of the chosen files, or None if the 
         event only changed the current directory.
         """
-        if response == gtk.RESPONSE_OK:
+        if response == gtk.ResponseType.OK:
             paths = self.filechooser.get_filenames()
             if len(paths) == 1 and os.path.isdir(paths[0]):
                 self.filechooser.set_current_folder(paths[0])
@@ -142,7 +142,7 @@ class _ComicFileChooserDialog(gtk.Dialog):
                     _('Replacing it will overwrite its contents.'))
                 response = overwrite_dialog.run()
                 overwrite_dialog.destroy()
-                if response != gtk.RESPONSE_OK:
+                if response != gtk.ResponseType.OK:
                     self.emit_stop_by_name('response')
                     return
             prefs['path of last browsed in filechooser'] = \

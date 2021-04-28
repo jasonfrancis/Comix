@@ -111,9 +111,9 @@ class _Bookmark(gtk.ImageMenuItem):
 
         gtk.MenuItem.__init__(self, str(self), False)
         if self._archive_type is not None:
-            im = gtk.image_new_from_stock('comix-archive', gtk.ICON_SIZE_MENU)
+            im = gtk.Image.new_from_stock('comix-archive', gtk.ICON_SIZE_MENU)
         else:
-            im = gtk.image_new_from_stock('comix-image', gtk.ICON_SIZE_MENU)
+            im = gtk.Image.new_from_stock('comix-image', gtk.ICON_SIZE_MENU)
         self.set_image(im)
         self.connect('activate', self._load)
 
@@ -232,7 +232,7 @@ class _BookmarksDialog(gtk.Dialog):
             gtk.ResponseType.CLOSE))
         self._bookmarks_store = bookmarks_store
 
-        self.set_has_separator(False)
+        # self.set_has_separator(False)
         self.set_resizable(True)
         self.set_default_response(gtk.ResponseType.CLOSE)
 

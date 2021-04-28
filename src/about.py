@@ -18,7 +18,7 @@ class _AboutDialog(gtk.Dialog):
     def __init__(self, window):
         gtk.Dialog.__init__(self, _('About'), window, 0,
             (gtk.STOCK_CLOSE, gtk.ResponseType.CLOSE))
-        self.set_has_separator(False)
+        # self.set_has_separator(False)
         self.set_resizable(False)
         self.connect('response', _close_dialog)
         self.set_default_response(gtk.ResponseType.CLOSE)

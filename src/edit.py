@@ -31,13 +31,13 @@ class _EditArchiveDialog(gtk.Dialog):
         self.kill = False # Dialog is killed.
         self.file_handler = window.file_handler
         self._window = window
-        self._save_button = self.add_button(gtk.STOCK_SAVE_AS, gtk.RESPONSE_OK)
+        self._save_button = self.add_button(gtk.STOCK_SAVE_AS, gtk.ResponseType.OK)
         # There is no stock response for "import", but by using
         # RESPONSE_HELP we automatically get the button placed at the left.
         self._import_button = self.add_button(_('Import'), gtk.RESPONSE_HELP)
-        self._import_button.set_image(gtk.image_new_from_stock(gtk.STOCK_ADD,
-            gtk.ICON_SIZE_BUTTON))
-        self.set_has_separator(False)
+        self._import_button.set_image(gtk.Image.new_from_stock(gtk.STOCK_ADD,
+            gtk.IconSize.BUTTON))
+        # self.set_has_separator(False)
         self.set_border_width(4)
         self.resize(min(gdk.screen_get_default().get_width() - 50, 750),
             min(gdk.screen_get_default().get_height() - 50, 600))
@@ -106,7 +106,7 @@ class _EditArchiveDialog(gtk.Dialog):
             self.set_sensitive(True)
 
     def _response(self, dialog, response):
-        if response == gtk.RESPONSE_OK:
+        if response == gtk.ResponseType.OK:
             dialog = filechooser.StandAloneFileChooserDialog(
                 gtk.FILE_CHOOSER_ACTION_SAVE)
             src_path = self.file_handler.get_path_to_base()

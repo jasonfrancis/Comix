@@ -252,7 +252,7 @@ class _CollectionArea(gtk.ScrolledWindow):
             _('Rename collection?'))
         rename_dialog.format_secondary_text(
             _('Please enter a new name for the selected collection.'))
-        rename_dialog.set_default_response(gtk.RESPONSE_OK)
+        rename_dialog.set_default_response(gtk.ResponseType.OK)
         
         box = gtk.HBox() # To get nice line-ups with the padding.
         rename_dialog.vbox.pack_start(box)
@@ -265,7 +265,7 @@ class _CollectionArea(gtk.ScrolledWindow):
         response = rename_dialog.run()
         new_name = entry.get_text()
         rename_dialog.destroy()
-        if response == gtk.RESPONSE_OK and new_name:
+        if response == gtk.ResponseType.OK and new_name:
             if self._library.backend.rename_collection(collection, new_name):
                 self.display_collections()
             else:
@@ -789,15 +789,15 @@ class _ControlArea(gtk.HBox):
         hbox = gtk.HBox(False, 10)
         vbox.pack_start(hbox, False, False)
         add_book_button = gtk.Button(_('Add books'))
-        add_book_button.set_image(gtk.image_new_from_stock(
-            gtk.STOCK_ADD, gtk.ICON_SIZE_BUTTON))
+        add_book_button.set_image(gtk.Image.new_from_stock(
+            gtk.STOCK_ADD, gtk.IconSize.BUTTON))
         add_book_button.connect('clicked', self._add_books)
         add_book_button.set_tooltip_text(_('Add more books to the library.'))
         hbox.pack_start(add_book_button, False, False)
         add_collection_button = gtk.Button(_('Add collection'))
         add_collection_button.connect('clicked', self._add_collection)
-        add_collection_button.set_image(gtk.image_new_from_stock(
-            gtk.STOCK_ADD, gtk.ICON_SIZE_BUTTON))
+        add_collection_button.set_image(gtk.Image.new_from_stock(
+            gtk.STOCK_ADD, gtk.IconSize.BUTTON))
         add_collection_button.set_tooltip_text(
             _('Add a new empty collection.'))
         hbox.pack_start(add_collection_button, False, False)
@@ -856,7 +856,7 @@ class _ControlArea(gtk.HBox):
             gtk.BUTTONS_OK_CANCEL, _('Add new collection?'))
         add_dialog.format_secondary_text(
             _('Please enter a name for the new collection.'))
-        add_dialog.set_default_response(gtk.RESPONSE_OK)
+        add_dialog.set_default_response(gtk.ResponseType.OK)
         
         box = gtk.HBox() # To get nice line-ups with the padding.
         add_dialog.vbox.pack_start(box)
@@ -869,7 +869,7 @@ class _ControlArea(gtk.HBox):
         response = add_dialog.run()
         name = entry.get_text()
         add_dialog.destroy()
-        if response == gtk.RESPONSE_OK and name:
+        if response == gtk.ResponseType.OK and name:
             if self._library.backend.add_collection(name):
                 collection = self._library.backend.get_collection_by_name(name)
                 prefs['last library collection'] = collection
@@ -913,7 +913,7 @@ class _AddBooksProgressDialog(gtk.Dialog):
             gtk.DIALOG_MODAL, (gtk.STOCK_STOP, gtk.ResponseType.CLOSE))
         self._destroy = False
         self.set_size_request(400, -1)
-        self.set_has_separator(False)
+        # self.set_has_separator(False)
         self.set_resizable(False)
         self.set_border_width(4)
         self.connect('response', self._response)
