@@ -46,6 +46,7 @@ class _ThumbnailMaintenanceDialog(gtk.Dialog):
         label = labels.ItalicLabel(
             _('Thumbnails for files (such as image files and comic book archives) are stored in your home directory. Many different applications use and create these thumbnails, but sometimes thumbnails remain even though the original files have been removed - wasting space. This dialog can cleanup your stored thumbnails by removing orphaned and outdated thumbnails.'))
         label.set_alignment(0, 0.5)
+        label.set_max_width_chars(80)
         label.set_line_wrap(True)
         main_box.pack_start(label, False, False, 10)
 
@@ -147,12 +148,12 @@ class _ThumbnailRemover(gtk.Dialog):
         size_label.set_alignment(0, 1.0)
         right_box.pack_start(size_label, True, True, 0)
 
-        bar = gtk.ProgressBar()
+        bar = gtk.ProgressBar.new()
         main_box.pack_start(bar, False, False, 0)
 
         removing_label = labels.ItalicLabel()
         removing_label.set_alignment(0, 0.5)
-        removing_label.set_ellipsize(pango.ELLIPSIZE_MIDDLE)
+        removing_label.set_ellipsize(pango.EllipsizeMode.MIDDLE)
         main_box.pack_start(removing_label, False, False, 0)
 
         self.show_all()
@@ -211,9 +212,9 @@ def _uri_to_path(uri):
     identifier intact.
     """
     if uri.startswith('file://'):
-        return urllib.url2pathname(uri[7:])
+        return urllib.request.url2pathname(uri[7:])
     else:
-        return urllib.url2pathname(uri)
+        return urllib.request.url2pathname(uri)
 
 
 def open_dialog(action, window):

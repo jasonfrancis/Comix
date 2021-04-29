@@ -718,7 +718,7 @@ class _BookArea(gtk.ScrolledWindow):
                 uri = uri[7:]
             elif uri.startswith('file:/'):  # Xffm etc.
                 uri = uri[5:]
-            path = urllib.url2pathname(uri)
+            path = urllib.request.url2pathname(uri)
             paths.append(path)
         collection = self._library.collection_area.get_current_collection()
         collection_name = self._library.backend.get_collection_name(collection)
@@ -748,19 +748,19 @@ class _ControlArea(gtk.HBox):
         borderbox.add(insidebox)
         insidebox.add(infobox)
         self._namelabel = labels.BoldLabel()
-        self._namelabel.set_ellipsize(pango.ELLIPSIZE_MIDDLE)
+        self._namelabel.set_ellipsize(pango.EllipsizeMode.MIDDLE)
         self._namelabel.set_alignment(0, 0.5)
         infobox.pack_start(self._namelabel, False, False)
         self._pageslabel = gtk.Label()
-        self._pageslabel.set_ellipsize(pango.ELLIPSIZE_MIDDLE)
+        self._pageslabel.set_ellipsize(pango.EllipsizeMode.MIDDLE)
         self._pageslabel.set_alignment(0, 0.5)
         infobox.pack_start(self._pageslabel, False, False)
         self._filelabel = gtk.Label()
-        self._filelabel.set_ellipsize(pango.ELLIPSIZE_MIDDLE)
+        self._filelabel.set_ellipsize(pango.EllipsizeMode.MIDDLE)
         self._filelabel.set_alignment(0, 0.5)
         infobox.pack_start(self._filelabel, False, False)
         self._dirlabel = gtk.Label()
-        self._dirlabel.set_ellipsize(pango.ELLIPSIZE_MIDDLE)
+        self._dirlabel.set_ellipsize(pango.EllipsizeMode.MIDDLE)
         self._dirlabel.set_alignment(0, 0.5)
         infobox.pack_start(self._dirlabel, False, False)
 
@@ -936,12 +936,12 @@ class _AddBooksProgressDialog(gtk.Dialog):
         number_label.set_alignment(0, 1.0)
         right_box.pack_start(number_label, True, True)
 
-        bar = gtk.ProgressBar()
+        bar = gtk.ProgressBar.new()
         main_box.pack_start(bar, False, False)
 
         added_label = labels.ItalicLabel()
         added_label.set_alignment(0, 0.5)
-        added_label.set_ellipsize(pango.ELLIPSIZE_MIDDLE)
+        added_label.set_ellipsize(pango.EllipsizeMode.MIDDLE)
         main_box.pack_start(added_label, False, False)
         self.show_all()
 

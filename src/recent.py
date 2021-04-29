@@ -34,7 +34,7 @@ class RecentFilesMenu(gtk.RecentChooserMenu):
 
     def _load(self, *args):
         uri = self.get_current_uri()
-        path = urllib.url2pathname(uri[7:])
+        path = urllib.request.url2pathname(uri[7:])
         self._window.file_handler.open_file(path)
 
     def add(self, path):

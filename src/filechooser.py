@@ -64,10 +64,10 @@ class _ComicFileChooserDialog(gtk.Dialog):
         self.filechooser.set_preview_widget(preview_box)
         self._namelabel = labels.FormattedLabel(weight=pango.Weight.BOLD,
             scale=0.8333333333333 )
-        self._namelabel.set_ellipsize(pango.ELLIPSIZE_MIDDLE)
+        self._namelabel.set_ellipsize(pango.EllipsizeMode.MIDDLE)
         preview_box.pack_start(self._namelabel, False, False)
         self._sizelabel = labels.FormattedLabel(scale=0.8333333333333 )
-        self._sizelabel.set_ellipsize(pango.ELLIPSIZE_MIDDLE)
+        self._sizelabel.set_ellipsize(pango.EllipsizeMode.MIDDLE)
         preview_box.pack_start(self._sizelabel, False, False)
         self.filechooser.set_use_preview_label(False)
         preview_box.show_all()

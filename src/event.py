@@ -301,7 +301,7 @@ class EventHandler:
             uri = uri[7:]
         elif uri.startswith('file:/'):  # Xffm etc.
             uri = uri[5:]
-        path = urllib.url2pathname(uri)
+        path = urllib.request.url2pathname(uri)
         self._window.file_handler.open_file(path)
 
     def _scroll_with_flipping(self, x, y):
